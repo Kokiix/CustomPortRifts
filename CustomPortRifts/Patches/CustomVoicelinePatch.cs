@@ -1,5 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
+using FMOD;
+using FMOD.Studio;
+using FMODUnity;
 using HarmonyLib;
 using RhythmRift;
 using RiftOfTheNecroManager;
@@ -37,7 +41,6 @@ public static class CustomVoicelinePatch
 
     public static void CustomAudioSwitch(RRPortraitView instance, RRPerformanceLevel performanceLevel)
     {
-        Log.Error("custom audio triggered!");
         switch (performanceLevel)
         {
             case RRPerformanceLevel.GameOver:
@@ -70,5 +73,11 @@ public static class CustomVoicelinePatch
                 }
                 break;
         }
+    }
+    
+    public static void PlayTestSound()
+    {
+        Log.Error("trying to run test sound");
+        FMODUnity.RuntimeManager.PlayOneShot("event:/characters/cadence/rr_emotes/trans_good_01");
     }
 }
