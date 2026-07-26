@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace CustomPortRifts.Patches;
+namespace CustomPortRifts.Patches.CustomVoiceLines;
 
 
 [HarmonyPatch(typeof(LocalTrackPortrait))]
 public static class CustomVoicelineLoader {
-    public static Dictionary<RRPerformanceLevel, List<string>> heroVoiceLines = [];
-    public static Dictionary<RRPerformanceLevel, List<string>> counterpartVoiceLines = [];
+    public static Dictionary<VoiceLineCategory, List<string>> heroVoiceLines = [];
+    public static Dictionary<VoiceLineCategory, List<string>> counterpartVoiceLines = [];
     public static readonly HashSet<string> allowedExtensions = new (StringComparer.OrdinalIgnoreCase)
     {
         ".ogg",
@@ -24,7 +24,7 @@ public static class CustomVoicelineLoader {
 
     [HarmonyPatch(nameof(LocalTrackPortrait.TryLoadCustomPortrait))]
     public static void Postfix(string basePath) {
-        var voiceDir = basePath + "/VoiceLines";
+        var voiceDir = Path.GetDirectoryName(basePath) + "/VoiceLines/" + Path.GetFileName(basePath);
         try {
             if (FileUtils.IsDirectory(voiceDir)) {
                 var voiceLineDict = Path.GetFileName(basePath) switch {
@@ -33,7 +33,7 @@ public static class CustomVoicelineLoader {
                     _ => null,
                 };
 
-                void AddFiles(RRPerformanceLevel performance, object folderName) {
+                void AddFiles(VoiceLineCategory performance, object folderName) {
                     if (FileUtils.IsDirectory(voiceDir + folderName))
                     {
                         var fileList = 
@@ -45,10 +45,10 @@ public static class CustomVoicelineLoader {
 
                 }
 
-                AddFiles(RRPerformanceLevel.GameOver, "/GameOver");
-                AddFiles(RRPerformanceLevel.Ok, "/Good");
-                AddFiles(RRPerformanceLevel.Poor, "/Bad");
-                AddFiles(RRPerformanceLevel.Normal, "/Normal");
+                AddFiles(VoiceLineCategory.GameOver, "/GameOver");
+                AddFiles(VoiceLineCategory.Good, "/Good");
+                AddFiles(VoiceLineCategory.Bad, "/Bad");
+                AddFiles(VoiceLineCategory.Normal, "/Normal");
             }
         }
         catch (Exception arg) {

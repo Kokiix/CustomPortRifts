@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -7,32 +8,52 @@ using FMODUnity;
 using HarmonyLib;
 using RhythmRift;
 using RiftOfTheNecroManager;
+using Shared.Audio;
 
-namespace CustomPortRifts.Patches;
+namespace CustomPortRifts.Patches.CustomVoiceLines;
+
+public enum VoiceLineCategory
+{
+    Good,
+    Bad,
+    GameOver,
+    Normal
+}
 
 [HarmonyPatch(typeof(RRPortraitView))]
 public static class CustomVoicelinePlayer {
+
+    static Random _rng = new();
+
     [HarmonyPatch(nameof(RRPortraitView.PerformanceLevelChange))]
     public static void Postfix(RRPortraitView __instance, RRPerformanceLevel performanceLevel, bool shouldPlaySoundReaction) {
         if (shouldPlaySoundReaction)
-            switch (performanceLevel) {
-                case RRPerformanceLevel.GameOver:
-                    // game over
-                    break;
-                case RRPerformanceLevel.Terrible:
-                case RRPerformanceLevel.Poor:
-                    // bad
-                    break;
-                case RRPerformanceLevel.Ok:
-                case RRPerformanceLevel.Well:
-                case RRPerformanceLevel.Awesome:
-                case RRPerformanceLevel.Amazing:
-                case RRPerformanceLevel.VibePower:
-                    // good
-                    break;
-                default:
-                    // normal
-                    break;
+        {
+            var voicelineCategory = performanceLevel switch {
+                RRPerformanceLevel.GameOver => VoiceLineCategory.GameOver,
+
+                RRPerformanceLevel.Terrible or
+                RRPerformanceLevel.Poor => VoiceLineCategory.Bad,
+
+                RRPerformanceLevel.Ok or
+                RRPerformanceLevel.Well or
+                RRPerformanceLevel.Awesome or
+                RRPerformanceLevel.Amazing or
+                RRPerformanceLevel.VibePower => VoiceLineCategory.Good,
+                
+                _ => VoiceLineCategory.Normal
+            };
+
+            var voiceDict = _rng.Next(2) == 0 ? CustomVoicelineLoader.heroVoiceLines : CustomVoicelineLoader.counterpartVoiceLines;
+            if (voiceDict.Count > 0) {
+                __instance._audioManager.StopAudioEvent(__instance._activeVOInstance);
+                if (voiceDict.ContainsKey(voicelineCategory)) {
+                    var voiceLineList = voiceDict[voicelineCategory];
+                    var fileToPlay = voiceLineList[_rng.Next(voiceLineList.Count)];
+                    FMODUnity.RuntimeManager.CoreSystem.createSound(fileToPlay, FMOD.MODE.DEFAULT, out Sound soundToPlay);
+                    FMODUnity.RuntimeManager.CoreSystem.playSound(soundToPlay, default, false, out Channel _);
+                }
             }
+        }
     }
 }
