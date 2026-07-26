@@ -108,7 +108,7 @@ CustomPortRifts/
 The voicelines are randomly chosen from the relevant folder.
 
 **Good? Bad? Recover?**
-Good lines play when reaching 20, 40, and 80 combo. Bad and Recovery lines play when entering and exiting low (2) health, respectively.
+Good lines play when reaching 20, 40, 80, and 120 combo and not on low (2) health. Bad lines play when descending to 2 or 1 health, and recovery lines play when ascending to 3 (but only with < 20 combo).
 
 **Folders and Files**
 
