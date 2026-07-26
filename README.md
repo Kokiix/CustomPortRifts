@@ -38,6 +38,79 @@ CustomPortRifts/
     ...
 ```
 
+### Custom Voicelines
+
+This feature is chart-specific for now (no global overrides).
+
+Example file structure:
+```
+CustomPortRifts/
+├─ Hero (sprites go in here)/
+├─ Counterpart (sprites go in here)/
+├─ VoiceLines/
+│  ├─ Hero/
+│  │  ├─ Good/
+│  │  │  ├─ yes.wav
+│  │  ├─ Bad/
+│  │  ├─ Normal/
+│  │  ├─ GameOver/
+│  ├─ Counterpart/
+│  │  ├─ Bad/
+│  │  │  ├─ evil_laugh_A.ogg
+│  │  │  ├─ evil_laugh_B.ogg
+```
+
+```
+    ┌─────────────────────────────────┐
+    │Player does Good, Bad, or Normal │
+    │                                 │
+    └─────────────────────────────────┘
+          │                 │
+     50% chance        50% chance
+          │                 │
+          ▼                 ▼
+ ┌────────────────┐ ┌────────────────┐
+ │nothing happens │ │voiceline plays │
+ │                │ │                │
+ └────────────────┘ └────────────────┘
+                         │        │
+                     ┌───┘        │
+                     │            │
+                     │       50% chance
+                50% chance        │
+                     │            │
+                     ▼            ▼
+                 ┌───────┐ ┌────────────┐
+                 │ Hero  │ │Counterpart │
+                 │       │ │            │
+                 └───────┘ └────────────┘
+                     │            │
+                     ▼            ▼
+         ┌───────────────────────────────────────────────┐
+         │Does this character have 1+ custom voicelines? │
+         │                                               │
+         └───────────────────────────────────────────────┘
+            │                              │
+           no                             yes
+            │                              │
+            │                              ▼
+            ▼                   ┌────────────────────────────────────────────────┐
+  ┌────────────────────────┐    |                                                │
+  │ vanilla voiceline plays|    │   Random voiceline plays, from the             |
+  |                        |    |   Good, Bad, or Normal folder respectively     │
+  └────────────────────────┘    |                                                │
+                                └────────────────────────────────────────────────┘
+
+```
+
+**Folders and Files**
+
+All folder names are case sensitive.
+
+As seen in the example above, empty or missing folders and mixed file types are accepted. However, empty or missing folders will result in no sound being played for that performance category.
+
+Accepted file types: `.ogg`, `.mp3`, `.wav`
+
 ### Reskins
 Custom PortRifts comes with toggles to replace all instances of certain characters with variants. For instance, you can play with the 10th Anniversary Update portraits on all levels.
 
