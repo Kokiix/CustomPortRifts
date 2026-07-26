@@ -49,8 +49,8 @@ public static class CustomVoicelinePlayer {
                 __instance._audioManager.StopAudioEvent(__instance._activeVOInstance);
                 if (voiceDict.ContainsKey(voicelineCategory)) {
                     var voiceLineList = voiceDict[voicelineCategory];
-                    var fileToPlay = voiceLineList[_rng.Next(voiceLineList.Count)];
-                    FMODUnity.RuntimeManager.CoreSystem.createSound(fileToPlay, FMOD.MODE.DEFAULT, out Sound soundToPlay);
+                    var soundToPlay = voiceLineList[_rng.Next(voiceLineList.Count)];
+                    
                     FMODUnity.RuntimeManager.CoreSystem.playSound(soundToPlay, default, false, out Channel _);
                 }
             }

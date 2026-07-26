@@ -61,10 +61,10 @@ CustomPortRifts/
 ```
 
 ```
-    ┌─────────────────────────────────┐
-    │Player does Good, Bad, or Normal │
-    │                                 │
-    └─────────────────────────────────┘
+    ┌──────────────────────────────────┐
+    │Player does Good, Bad, or Recovers│
+    │                                  │
+    └──────────────────────────────────┘
           │                 │
      50% chance        50% chance
           │                 │
@@ -102,6 +102,9 @@ CustomPortRifts/
                                 └────────────────────────────────────────────────┘
 
 ```
+
+**Doing Normal?**
+Normal lines only trigger
 
 **Folders and Files**
 

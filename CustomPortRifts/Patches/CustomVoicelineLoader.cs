@@ -1,3 +1,4 @@
+using FMOD;
 using HarmonyLib;
 using RhythmRift;
 using RiftOfTheNecroManager;
@@ -13,8 +14,8 @@ namespace CustomPortRifts.Patches.CustomVoiceLines;
 
 [HarmonyPatch(typeof(LocalTrackPortrait))]
 public static class CustomVoicelineLoader {
-    public static Dictionary<VoiceLineCategory, List<string>> heroVoiceLines = [];
-    public static Dictionary<VoiceLineCategory, List<string>> counterpartVoiceLines = [];
+    public static Dictionary<VoiceLineCategory, List<Sound>> heroVoiceLines = [];
+    public static Dictionary<VoiceLineCategory, List<Sound>> counterpartVoiceLines = [];
     public static readonly HashSet<string> allowedExtensions = new (StringComparer.OrdinalIgnoreCase)
     {
         ".ogg",
@@ -36,11 +37,15 @@ public static class CustomVoicelineLoader {
                 void AddFiles(VoiceLineCategory performance, object folderName) {
                     if (FileUtils.IsDirectory(voiceDir + folderName))
                     {
-                        var fileList = 
+                        var soundList = 
                             Directory.GetFiles(voiceDir + folderName)
                                 .Where(file => allowedExtensions.Contains(Path.GetExtension(file)))
+                                .Select(file => {
+                                    FMODUnity.RuntimeManager.CoreSystem.createSound(file, FMOD.MODE.DEFAULT, out Sound sound);
+                                    return sound;
+                                })
                             .ToList();
-                        if (fileList.Count > 0) voiceLineDict?[performance] = fileList;
+                        if (soundList.Count > 0) voiceLineDict?[performance] = soundList;
                     }
 
                 }
