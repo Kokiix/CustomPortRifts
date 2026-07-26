@@ -12,7 +12,7 @@ using System.Linq;
 namespace CustomPortRifts.Patches.CustomVoiceLines;
 
 
-[HarmonyPatch(typeof(LocalTrackPortrait))]
+[HarmonyPatch(typeof(LocalTrackPortrait), nameof(LocalTrackPortrait.TryLoadCustomPortrait))]
 public static class CustomVoicelineLoader {
     public static Dictionary<VoiceLineCategory, List<Sound>> heroVoiceLines = [];
     public static Dictionary<VoiceLineCategory, List<Sound>> counterpartVoiceLines = [];
@@ -23,7 +23,6 @@ public static class CustomVoicelineLoader {
         ".wav"
     };
 
-    [HarmonyPatch(nameof(LocalTrackPortrait.TryLoadCustomPortrait))]
     public static void Postfix(string basePath) {
         var voiceDir = Path.GetDirectoryName(basePath) + "/VoiceLines/" + Path.GetFileName(basePath);
         try {

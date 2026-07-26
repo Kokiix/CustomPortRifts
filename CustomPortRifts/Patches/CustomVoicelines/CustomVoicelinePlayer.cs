@@ -21,13 +21,12 @@ public enum VoiceLineCategory
     Recover
 }
 
-[HarmonyPatch(typeof(RRPortraitView))]
+[HarmonyPatch(typeof(RRPortraitView), nameof(RRPortraitView.PerformanceLevelChange))]
 public static class CustomVoicelinePlayer {
 
     static System.Random _rng = new();
     static float _timeOfLastVoiceline = 0;
 
-    [HarmonyPatch(nameof(RRPortraitView.PerformanceLevelChange))]
     public static void Postfix(RRPortraitView __instance, RRPerformanceLevel performanceLevel, bool shouldPlaySoundReaction) {
         if (shouldPlaySoundReaction)
         {
