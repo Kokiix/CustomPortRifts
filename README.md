@@ -52,7 +52,7 @@ CustomPortRifts/
 │  │  ├─ Good/
 │  │  │  ├─ yes.wav
 │  │  ├─ Bad/
-│  │  ├─ Normal/
+│  │  ├─ Recover/
 │  │  ├─ GameOver/
 │  ├─ Counterpart/
 │  │  ├─ Bad/
@@ -97,14 +97,14 @@ CustomPortRifts/
             ▼                   ┌────────────────────────────────────────────────┐
   ┌────────────────────────┐    |                                                │
   │ vanilla voiceline plays|    │   Random voiceline plays, from the             |
-  |                        |    |   Good, Bad, or Normal folder respectively     │
+  |                        |    |   Good, Bad, or Recover folder respectively    │
   └────────────────────────┘    |                                                │
                                 └────────────────────────────────────────────────┘
 
 ```
 
-**Doing Normal?**
-Normal lines only trigger
+**What are recover lines?**
+These lines have a chance to play when the player goes from low (2) health to normal (3+) health.
 
 **Folders and Files**
 

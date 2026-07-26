@@ -53,7 +53,7 @@ public static class CustomVoicelineLoader {
                 AddFiles(VoiceLineCategory.GameOver, "/GameOver");
                 AddFiles(VoiceLineCategory.Good, "/Good");
                 AddFiles(VoiceLineCategory.Bad, "/Bad");
-                AddFiles(VoiceLineCategory.Normal, "/Normal");
+                AddFiles(VoiceLineCategory.Recover, "/Recover");
             }
         }
         catch (Exception arg) {

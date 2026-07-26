@@ -17,7 +17,7 @@ public enum VoiceLineCategory
     Good,
     Bad,
     GameOver,
-    Normal
+    Recover
 }
 
 [HarmonyPatch(typeof(RRPortraitView))]
@@ -41,7 +41,7 @@ public static class CustomVoicelinePlayer {
                 RRPerformanceLevel.Amazing or
                 RRPerformanceLevel.VibePower => VoiceLineCategory.Good,
                 
-                _ => VoiceLineCategory.Normal
+                _ => VoiceLineCategory.Recover
             };
 
             var voiceDict = _rng.Next(2) == 0 ? CustomVoicelineLoader.heroVoiceLines : CustomVoicelineLoader.counterpartVoiceLines;
