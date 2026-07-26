@@ -61,50 +61,54 @@ CustomPortRifts/
 ```
 
 ```
-    ┌──────────────────────────────────┐
-    │Player does Good, Bad, or Recovers│
-    │                                  │
-    └──────────────────────────────────┘
-          │                 │
-     50% chance        50% chance
-          │                 │
-          ▼                 ▼
- ┌────────────────┐ ┌────────────────┐
- │nothing happens │ │voiceline plays │
- │                │ │                │
- └────────────────┘ └────────────────┘
-                         │        │
-                     ┌───┘        │
-                     │            │
-                     │       50% chance
-                50% chance        │
-                     │            │
-                     ▼            ▼
-                 ┌───────┐ ┌────────────┐
-                 │ Hero  │ │Counterpart │
-                 │       │ │            │
-                 └───────┘ └────────────┘
-                     │            │
-                     ▼            ▼
-         ┌───────────────────────────────────────────────┐
-         │Does this character have 1+ custom voicelines? │
-         │                                               │
-         └───────────────────────────────────────────────┘
-            │                              │
-           no                             yes
-            │                              │
-            │                              ▼
-            ▼                   ┌────────────────────────────────────────────────┐
-  ┌────────────────────────┐    |                                                │
-  │ vanilla voiceline plays|    │   Random voiceline plays, from the             |
-  |                        |    |   Good, Bad, or Recover folder respectively    │
-  └────────────────────────┘    |                                                │
-                                └────────────────────────────────────────────────┘
+      ┌───────────────────────────────────┐                   
+      │Player does Good, Bad, or Recovers │                   
+      │                                   │                   
+      └───────────────────────────────────┘                   
+                     │                                        
+                     ▼                                        
+  ┌───────────────────────────────────────────────┐           
+  │has a voiceline played in the last 15 seconds? │           
+  │                                               │           
+  └───────────────────────────────────────────────┘           
+          │                     │                             
+         yes                   no                             
+          │                     │                             
+          ▼                     ▼                             
+ ┌────────────────┐ ┌───────────────────────────┐             
+ │nothing happens │ │voiceline should be played │             
+ │                │ │                           │             
+ └────────────────┘ └───────────────────────────┘             
+                         │            │                       
+                    50% chance   50% chance                   
+                         │            │                       
+                         ▼            ▼                       
+                     ┌───────┐ ┌────────────┐                 
+                     │ Hero  │ │Counterpart │                 
+                     │       │ │            │                 
+                     └───────┘ └────────────┘                 
+                          │           │                       
+                          ▼           ▼                       
+             ┌───────────────────────────────────────────────┐
+             │Does this character have 1+ custom voicelines? │
+             │                                               │
+             └───────────────────────────────────────────────┘
+                     │                     │                  
+                    no                    yes                 
+                     │                     │                  
+                     ▼                     ▼                  
+           ┌───────────────────────┐    ┌────────────────────┐       
+           │vanilla voiceline plays│    |Custom voiceline :D │       
+           │                       │    │                    │       
+           └───────────────────────┘    └────────────────────┘       
 
 ```
 
-**What are recover lines?**
-These lines have a chance to play when the player goes from low (2) health to normal (3+) health.
+**What order do the voicelines play in?**
+The voicelines are randomly chosen from the relevant folder.
+
+**Good? Bad? Recover?**
+Good lines play when reaching 20, 40, and 80 combo. Bad and Recovery lines play when entering and exiting low (2) health, respectively.
 
 **Folders and Files**
 

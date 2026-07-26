@@ -9,6 +9,7 @@ using HarmonyLib;
 using RhythmRift;
 using RiftOfTheNecroManager;
 using Shared.Audio;
+using UnityEngine;
 
 namespace CustomPortRifts.Patches.CustomVoiceLines;
 
@@ -23,7 +24,8 @@ public enum VoiceLineCategory
 [HarmonyPatch(typeof(RRPortraitView))]
 public static class CustomVoicelinePlayer {
 
-    static Random _rng = new();
+    static System.Random _rng = new();
+    static float _timeOfLastVoiceline = 0;
 
     [HarmonyPatch(nameof(RRPortraitView.PerformanceLevelChange))]
     public static void Postfix(RRPortraitView __instance, RRPerformanceLevel performanceLevel, bool shouldPlaySoundReaction) {
@@ -47,13 +49,16 @@ public static class CustomVoicelinePlayer {
             var voiceDict = _rng.Next(2) == 0 ? CustomVoicelineLoader.heroVoiceLines : CustomVoicelineLoader.counterpartVoiceLines;
             if (voiceDict.Count > 0) {
                 __instance._audioManager.StopAudioEvent(__instance._activeVOInstance);
-                if (voiceDict.ContainsKey(voicelineCategory)) {
+                if (voiceDict.ContainsKey(voicelineCategory) && (Time.time - _timeOfLastVoiceline >= 15 || voicelineCategory == VoiceLineCategory.GameOver)) {
                     var voiceLineList = voiceDict[voicelineCategory];
                     var soundToPlay = voiceLineList[_rng.Next(voiceLineList.Count)];
                     
                     FMODUnity.RuntimeManager.CoreSystem.playSound(soundToPlay, default, false, out Channel _);
                 }
             }
+
+            if (Time.time - _timeOfLastVoiceline >= 15)
+                _timeOfLastVoiceline = Time.time;
         }
     }
 }
