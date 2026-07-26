@@ -24,7 +24,7 @@ public static class CustomVoicelineLoader {
     };
 
     public static void Postfix(string basePath) {
-        var voiceDir = Path.GetDirectoryName(basePath) + "/VoiceLines/" + Path.GetFileName(basePath);
+        var voiceDir = basePath + "/Voicelines";
         try {
             if (FileUtils.IsDirectory(voiceDir)) {
                 var voiceLineDict = Path.GetFileName(basePath) switch {
@@ -46,7 +46,6 @@ public static class CustomVoicelineLoader {
                             .ToList();
                         if (soundList.Count > 0) voiceLineDict?[performance] = soundList;
                     }
-
                 }
 
                 AddFiles(VoiceLineCategory.GameOver, "/GameOver");
